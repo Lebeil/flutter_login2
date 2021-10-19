@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,6 +31,14 @@ class HomePage extends StatelessWidget {
           title: const Text('Page de profil'),
           backgroundColor: Colors.red,
         ),
+        body: Center(
+          child: ElevatedButton(
+            child: const Text("Déconnexion"),
+            onPressed: () {
+              auth.signOut();
+            },
+          ),
+        ),
       ),
     );
   }
@@ -45,7 +55,28 @@ class LoginTabBar extends StatelessWidget {
           title: const Text('Page de connexion'),
           backgroundColor: Colors.amber,
         ),
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              loginToFirebase();
+            },
+            child: const Text("connexion"),
+          ),
+        ),
       ),
     );
+  }
+
+  void loginToFirebase() {
+    try {
+      auth
+          .signInWithEmailAndPassword(
+              email: 'liedell@orange.fr', password: '123mdp')
+          .then((value) {
+        print(value.toString());
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
